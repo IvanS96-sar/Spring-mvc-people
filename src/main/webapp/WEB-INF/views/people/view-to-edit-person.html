@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Person</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/people/{id}(id=${editedPerson.getId()})}" th:object="${editedPerson}">
+    <label for="input-name">Enter the name of new person</label>
+    <input type="text" th:field="*{name}" id="input-name"/>
+    <br/>
+    <label for="input-age">Enter the age of new person</label>
+    <input type="text" th:field="*{age}" id="input-age"/>
+    <br/>
+    <input type="submit" value="Push the button to edit this person">
+</form>
+
+</body>
+</html>
