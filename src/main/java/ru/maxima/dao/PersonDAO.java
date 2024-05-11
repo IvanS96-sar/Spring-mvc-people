@@ -68,10 +68,11 @@ public class PersonDAO {
     public Person findById(Long id){
         Person person = new Person();
         try {
-            Statement statement = connection.createStatement();
-            String SQLQuery = "select * " +
-                    "from person where id = " + id;
-            ResultSet resultSet = statement.executeQuery(SQLQuery);
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from person where id = ?");
+//            String SQLQuery = "select * " +
+//                    "from person where id = " + id;
+            preparedStatement.setLong(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()){
             person.setId(resultSet.getLong("id"));
