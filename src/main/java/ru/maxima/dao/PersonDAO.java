@@ -32,110 +32,97 @@ public class PersonDAO {
             e.printStackTrace();
         }
         try {
-            connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    public List<Person> getAllPeople()  {
+
+    public List<Person> getAllPeople() {
 
         List<Person> people = new ArrayList<>();
 
         try {
-            Statement statement = connection.createStatement();
-            String SQLQuery = "select * " +
-                    "from person";
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from person");
 
-            ResultSet resultSet = statement.executeQuery(SQLQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Person person = new Person();
                 person.setId(resultSet.getLong("id"));
                 person.setName(resultSet.getString("name"));
                 person.setAge(resultSet.getLong("age"));
 
                 people.add(person);
-
-
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
         return people;
     }
-    public Person findById(Long id){
+
+    public Person findById(Long id) {
+
         Person person = new Person();
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select * from person where id = ?");
-//            String SQLQuery = "select * " +
-//                    "from person where id = " + id;
-            preparedStatement.setLong(1,id);
+
+            preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
-            person.setId(resultSet.getLong("id"));
-            person.setName(resultSet.getString("name"));
-            person.setAge(resultSet.getLong("age"));}
+            while (resultSet.next()) {
+                person.setId(resultSet.getLong("id"));
+                person.setName(resultSet.getString("name"));
+                person.setAge(resultSet.getLong("age"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return person;
     }
-//        return people.stream()
-//                .filter(p -> p.getId().equals(id))
-//                .findAny()
-//                .orElse(null);
-//    }
 
 
-    public void save(Person person){
-       Optional<Long> last= getAllPeople().stream()
-               .map(Person::getId).max(Comparator.naturalOrder());
-       Long id = last.get();
+    public void save(Person person) {
+        Optional<Long> last = getAllPeople().stream()
+                .map(Person::getId).max(Comparator.naturalOrder());
+        Long id = last.get();
 
         try {
-            Statement statement = connection.createStatement();
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into person(id, name, age) values (?,?,?)");
 
-            String SQLQuery = "insert into person(id, name, age) values ( " + ++id + ", '" + person.getName() + "'," + person.getAge() + ")";
-            statement.executeUpdate(SQLQuery);
-
-
+            preparedStatement.setLong(1, ++id);
+            preparedStatement.setString(2, person.getName());
+            preparedStatement.setLong(3, person.getAge());
+            preparedStatement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-        // people.add(person);
     }
 
     public void update(Person personFromView, Integer id) {
 
         try {
-            Statement statement = connection.createStatement();
+            PreparedStatement preparedStatement = connection.prepareStatement("update person set name = ?,age = ? where id = ?");
 
-            String SQLQuery = "update person set name = '" + personFromView.getName()+"'," +
-                    "age = " + personFromView.getAge()+
-                    " where id =" +id;
-            statement.executeUpdate(SQLQuery);
-
+            preparedStatement.setString(1, personFromView.getName());
+            preparedStatement.setLong(2, personFromView.getAge());
+            preparedStatement.setLong(3, id);
+            preparedStatement.executeQuery();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
-    public void delete(Integer id){
-//delete,from person,where id;
+
+    public void delete(Integer id) {
 
         try {
-            Statement statement = connection.createStatement();
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from person where id = ?");
 
-            String SQLQuery = "delete from person where id = " +id;
-            statement.executeUpdate(SQLQuery);
-
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeQuery();
 
         } catch (SQLException e) {
             e.printStackTrace();
