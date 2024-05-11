@@ -111,7 +111,7 @@ public class PersonDAO {
     }
 
     public void update(Person personFromView, Integer id) {
-//        update person,set name = 'Ivan',age = 25,where id = 1;
+
         try {
             Statement statement = connection.createStatement();
 
