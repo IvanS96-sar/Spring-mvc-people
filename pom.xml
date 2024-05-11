@@ -27,6 +27,13 @@
       <scope>provided</scope>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>8.0.1.Final</version>
+    </dependency>
+
 
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
       <dependency>
@@ -76,6 +83,13 @@
         <version>6.1.0-M2</version>
         <scope>provided</scope>
       </dependency>
+    <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.7.3</version>
+    </dependency>
+
 
   </dependencies>
   <build>

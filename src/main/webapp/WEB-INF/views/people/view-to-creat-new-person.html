@@ -10,9 +10,13 @@
 <form th:method="POST" th:action="@{/people}" th:object="${newPerson}">
     <label for="input-name">Enter the name of new person</label>
     <input type="text" th:field="*{name}" id="input-name"/>
+    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+    </div>
     <br/>
     <label for="input-age">Enter the age of new person</label>
     <input type="text" th:field="*{age}" id="input-age"/>
+    <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+
     <br/>
     <input type="submit" value="Push the button to create new person">
 </form>
