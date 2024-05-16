@@ -94,7 +94,7 @@ public class PersonDAO {
             preparedStatement.setLong(1, ++id);
             preparedStatement.setString(2, person.getName());
             preparedStatement.setLong(3, person.getAge());
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -108,7 +108,7 @@ public class PersonDAO {
             preparedStatement.setString(1, personFromView.getName());
             preparedStatement.setLong(2, personFromView.getAge());
             preparedStatement.setLong(3, id);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -122,7 +122,7 @@ public class PersonDAO {
             PreparedStatement preparedStatement = connection.prepareStatement("delete from person where id = ?");
 
             preparedStatement.setLong(1, id);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
